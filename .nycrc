@@ -1,0 +1,6 @@
+{
+    "exclude": [
+      "example/modules/*",
+      "test/*"
+    ]
+}

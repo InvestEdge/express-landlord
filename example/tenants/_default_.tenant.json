@@ -1,0 +1,13 @@
+{
+    "slug": "default-config",
+    "location": "default zone",
+    "features": {
+        "frontEnd": true,
+        "services": true,
+        "admin": false,
+        "alpha": false,
+        "beta": true
+    },
+    "environment": {
+    }
+}

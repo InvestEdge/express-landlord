@@ -1,0 +1,9 @@
+{
+    "slug": "example-com-config",
+    "location": "zone 1",
+    "features": {
+        "frontEnd": false,
+        "services": false,
+        "admin": true
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "slug": "*-somesite-com-config",
+    "location": "zone 2",
+    "features": {
+        "frontEnd": false,
+        "services": false,
+        "admin": false
+    }
+}

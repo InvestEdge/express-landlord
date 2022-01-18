@@ -1,0 +1,24 @@
+{
+    "slug": "127.0.0.1-config",
+    "location": "zone 1",
+    "features": {
+        "frontEnd": true,
+        "services": true,
+        "admin": false
+    },
+    "environment": {
+        "knex": {
+            "client": "sqlite3",
+            "useNullAsDefault": true,
+            "connection": {
+                "filename": "./example/db/example-tenant.sqlite3"
+             },
+             "migrations": {
+                 "directory": "./example/db/migrations"
+             },
+             "seeds": {
+                  "directory": "./example/db/seeds"
+             }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "slug": "customer2-config",
+    "location": "zone 2",
+    "features": {
+        "frontEnd": false,
+        "services": true,
+        "admin": false
+    }
+}

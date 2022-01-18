@@ -1,0 +1,39 @@
+{
+  "name": "express-landlord",
+  "version": "5.4.3",
+  "description": "Express Landlord",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nyc mocha"
+  },
+  "engines": {
+    "node": ">16.0",
+    "npm": ">8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InvestEdge/express-landlord.git"
+  },
+  "author": "RC Collins",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "glob-resolver": "https://github.com/InvestEdge/glob-resolver.git",
+    "http-errors": "^1.8.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "knex": "^0.21.19",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
+    "supertest": "^4.0.2"
+  }
+}
