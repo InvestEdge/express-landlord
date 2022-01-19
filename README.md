@@ -6,8 +6,6 @@ Landlord is a library for building multitenant applications on top of [NodeJS](h
 - [Express Module Loader](docs/module-loader.md): Organize code into modules, and avoid creating monoliths
 - [Express Route Reporter](docs/route-reporter.md): Transparency into route-based middlewares
 
-Refer [here](local-docker.md) for more info on running Landlord locally.
-
 ## What does "Multitenant" mean?
 
 There are varying definitions of what constitutes a "multitenant" architecture.  In this case, the term refers to a configuration where the database instances for each customer/tenant are physically and logically separated from each other, but the web/service/compute tier is a shared resource.  The following diagram represents this type of architecture.
@@ -24,7 +22,7 @@ The Landlord Library is comprised of several modules that work together to provi
 
 - [Express Module Loader](docs/module-loader.md) enables a modular approach to Express development.  It provides a mechanism for loading modules (folders full of code) dynamically at runtime.  This means applications can be composed of many smaller applications instead of having to rely on a single large codebase.  This helps avoid the creation of bloated and untestable monolithic apps by favoring the development of smaller, more cohesive units of code.
 
-- [Express Route Reporter](docs/route-reporter.md) was created simply because no one else seems to have done it right.
+- [Express Route Reporter](docs/route-reporter.md) was created to make life a bit easier on the development team and sysadmins.
 
 The library sits on top of NodeJS and Express to provide a simplified way for other code to interact with the multitenant environment.  It allows developers to focus on business logic without spending too much wrangling infrastructure.  It can be helpful to think of the library as the foundation for the business-layer and the modules that support it.
 
@@ -96,8 +94,7 @@ module.exports = router;
 
 # Quick Start
 
-Follow these steps to get up and running!  The final code has also been made available in the Landlord QuickStart project.  In addition to the QuickStart, another more robust example can be found in the "example" folder in this project.
-
+Follow these steps to get up and running! 
 ## 1. Set up your project
 
 The folder structure is completely configurable, but this is a good starting point:
@@ -353,7 +350,7 @@ Let's pretend that we want to configure our application to respond differently d
 ```javascript
 // /tenants/127.0.0.1.tenant.js - Less-enthusiastic greeting
 module.exports = {
-    "greeting": "Hey I guess..."
+    greeting: "Hey I guess..."
 };
 ```
 
@@ -383,7 +380,7 @@ app.use(moduleLoader.use({
 // ... etc ...
 ```
 
-That's all we have to do to load our configs!  The middleware will lookup the hostname from the incoming request, use it to find the correct configuration, and then it will add `req.tenant.config` to our routes.  This object which will contain our data.
+That's all we have to do to load our configs!  The middleware will lookup the hostname from the incoming request, use it to find the correct configuration, and then it will add `req.tenant.config` to our routes.  This request-bound object will now contain our configuration data.
 
 Let's modify our routes to include our new greetings.
 
@@ -411,7 +408,7 @@ In order to do anything useful, most web applications need to connect to a datab
 
 First, we need some databases for our tenants.  The example code for Landlord contains a MockDBClient that can be used just to see how everything is put together.  In real-world usage, any database driver can be used (knex, sequelize, pg, etc), and each tenant would have their own dedicated database. For our example, we will use two instances of the mock database client instead.
 
-Each tenant configuration should contain a data that can be used to associate the correct database instance to each tenant.  We will modify each of the configurations we have created to include connection information in a format that Knex can use (although any database library is supported).
+Each tenant configuration should contain a section that can be used to associate the correct database instance to the tenant.  We will modify each of the configurations we have created to include connection information in a format that Knex can use (although any database library is supported).
 
 ```javascript
 // /tenants/localhost.tenant.js - Enthusiastic greeting
@@ -464,14 +461,19 @@ const landlord = new ExpressLandlord({
     providers: new providers.FileSystem({
         globs: './tenants/*.tenant.js*'
     }),
-    /*
-        Configure our database connections.
-        NOTE: Knex is its own factory function.
-    */
     db: {
+        /*
+            For our example, we will use a mock db client and some test data.
+            This mock is only used for the example and does not use the
+            connection info we set up.
+        */
         configPath: 'database',
-        factory: knex, // Shorthand for (config) => { knex(config); }
-        finalizer: (db) => { db.destroy(); }
+        factory: (config) => new MockDBClient().factory(config),
+        finalizer: (db) => { db.finalizer(); },
+
+        // If we were using a real database and knex, it might look like this:
+        //factory: knex, // Shorthand for (config) => { knex(config); }
+        //finalizer: (db) => { db.destroy(); }
     }
 });
 
@@ -502,7 +504,7 @@ function cleanup() {
 }
 ```
 
-Now that we have connected our databases, let's retrieve some results.  The example database contains a table named `users` that we can use.  Add a new route to the routes file that selects data from the users table with Knex.
+Now that we have connected our databases, let's retrieve some results.  The example folder contains a mock database with `users` data that we can use to demonstrate this concept.  Add a new route to the routes file that selects data from the users table with Knex.
 
 ```javascript
 // /modules/hello/routes.js:
@@ -519,7 +521,11 @@ router.get('/human', async (req, res) => {
 
 router.get('/users', async (req, res, next) => {
     try {
-        const users = await req.tenant.db('users').select();
+            const users = await req.tenant.db.getUsers();
+
+            // If we were using a knex database, it might look like this:
+            // const users = await req.tenant.db('users').select();
+            res.send(users);
         res.send(users);
     } catch (error) {
         next(error);
