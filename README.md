@@ -24,9 +24,7 @@ The Landlord Library is comprised of several modules that work together to provi
 
 - [Express Route Reporter](docs/route-reporter.md) was created to make life a bit easier on the development team and sysadmins.
 
-The library sits on top of NodeJS and Express to provide a simplified way for other code to interact with the multitenant environment.  It allows developers to focus on business logic without spending too much wrangling infrastructure.  It can be helpful to think of the library as the foundation for the business-layer and the modules that support it.
-
-![Container](docs/assets/diagram-container-contents.png)
+The library sits on top of NodeJS and Express to provide a simplified way for other code to interact with the multitenant environment.  It allows developers to focus on business logic without spending too much wrangling infrastructure. 
 
 
 ## App Lifecycle
