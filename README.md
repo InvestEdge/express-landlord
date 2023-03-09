@@ -190,7 +190,7 @@ Express server listening on http://localhost:3000
 
 When browsing this endpoint, the message "Route not found!" will be displayed by our 404 handler because we haven't added any routes - this is expected!  Let's add a route or two.
 
-## 4. Create a Landlord module
+## 3. Create a Landlord module
 
 Landlord organizes an application into modules.  A module is simply a folder full of code that exports an [Express Router](https://expressjs.com/en/4x/api.html#express.router) or middleware.  Landlord will use the name of the folder the code is found in as the base of the route it is exposed on.  For example, if we put our code in a folder named "hello", whatever our module exports will show up at http://localhost:3000/hello/.
 
@@ -275,7 +275,7 @@ app.use(moduleLoader.use({
 
 At this point, you can once again browse to http://localhost:3000/hello or http://localhost:3000/hello/human to see that the module loader has done its job.
 
-## 5. Add a route listing
+## 4. Add a route listing
 
 Now that we are loading modules dynamically, it would be nice to know what endpoints were loaded at runtime.  To get a listing of routes when the application loads, we can use the route reporter in the `app.listen()` callback.
 
@@ -322,7 +322,7 @@ http://localhost:3000/hello/
 http://localhost:3000/hello/human
 ```
 
-## 6. Add configuration data
+## 5. Add configuration data
 
 Applications usually need some configuration data, but what if that data is different on a per-tenant basis?  How do you know which tenant gets which config?  To solve this problem, Landlord assumes that each tenant has its own unique URL to access the application and automatically associates the hostname of a given request with the correct configuration data.
 
@@ -400,7 +400,7 @@ module.exports = router;
 
 At this point, you can once again browse to http://localhost:3000/hello or http://127.0.0.1:3000/hello/ to see that we are now loading our greeting from configuration files, and responding correctly based on the tenant.
 
-## 7. Connect to a database
+## 6. Connect to a database
 
 In order to do anything useful, most web applications need to connect to a database.  Landlord makes this easy by allowing us to connect to a database using connection information stored in our configuration files.
 
