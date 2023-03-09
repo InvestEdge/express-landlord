@@ -519,11 +519,10 @@ router.get('/human', async (req, res) => {
 
 router.get('/users', async (req, res, next) => {
     try {
-            const users = await req.tenant.db.getUsers();
+        const users = await req.tenant.db.getUsers();
 
-            // If we were using a knex database, it might look like this:
-            // const users = await req.tenant.db('users').select();
-            res.send(users);
+        // If we were using a knex database, it might look like this:
+        // const users = await req.tenant.db('users').select();
         res.send(users);
     } catch (error) {
         next(error);
