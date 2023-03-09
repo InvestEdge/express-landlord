@@ -66,7 +66,7 @@ Event: onRequestStart
 ... Continue processing other routes and middlewares
 ```
 
-With all this in place, modules can be written using familiar concepts by leveraging a few simple interfaces.  The module below leverages all of the capabilities of Landlord.  It ensures the user has the appropriate access level before then reading data from the correct database.  Note that this module can easily be tested on its own and can be combined with other modules simply by dropping them in the same or adjacent folders.  It looks simple because that's the point!
+With all this in place, databases can be accessed through a few simple interfaces.  The example below demonstrates reading data from a tenant-specific database instance that was auto-wired by Landlord.  Note that this module can easily be tested on its own and can be combined with other modules simply by dropping them in the same or adjacent folders. 
 
 ```javascript
 // users.routes.js
